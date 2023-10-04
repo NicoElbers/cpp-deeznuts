@@ -29,7 +29,7 @@ if [ -e "$output_name" ]; then
 fi
 
 # Compile the C++ file using g++ with debugging information
-g++ -g -o "$output_name" "$input_file"
+g++ -g -o "$output_name" *.cpp
 
 # Check if compilation was successful
 if [ $? -eq 0 ]; then
@@ -39,4 +39,5 @@ if [ $? -eq 0 ]; then
     time ./"$output_name"
 else
     echo "Compilation failed."
+    echo "This may have been because you have multiple files with main methods in the directory."
 fi
