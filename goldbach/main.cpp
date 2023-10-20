@@ -9,7 +9,7 @@
 
 class Primes {
 private:
-  int highestValueChecked = 1;
+  int highestValueChecked = 3;
 
 public:
   std::vector<int> primeCache;
@@ -17,15 +17,35 @@ public:
   void genPrimes(int);
   bool isPrime(int);
   bool contains(int);
+  int cacheSize;
 };
 
 Primes::Primes() {
   primeCache.push_back(2);
   primeCache.push_back(3);
+  // primeCache.push_back(5);
+  // primeCache.push_back(7);
+  // primeCache.push_back(11);
 }
 
 bool Primes::contains(int n) {
-  for (int i = primeCache.size() - 1; i >= 0; --i) {
+  // int i = primeCache.size() - 1;
+  // int currentPrime = primeCache[i];
+  // bool isEqual;
+  // bool isLimit;
+  // bool completed = false;
+  //
+  // while (!completed) {
+  //   isEqual = n == currentPrime;
+  //   completed = isEqual || i == 0;
+  //
+  //   i--;
+  //   currentPrime = primeCache[i];
+  // }
+  //
+  // return isEqual;
+
+  for (int i = cacheSize - 1; i >= 0; --i) {
     if (n == primeCache[i])
       return true;
   }
@@ -36,6 +56,38 @@ bool Primes::isPrime(int n) {
   if (n <= highestValueChecked) {
     return contains(n);
   }
+
+  // int i = 0;
+  // int prime1, prime2, prime3, prime4, prime5;
+  // prime1 = 2;
+  // prime2 = 3;
+  // prime3 = 5;
+  // prime4 = 7;
+  // prime5 = 11;
+  //
+  // bool notPrime;
+  // bool completed = false;
+  // while (!completed) {
+  //   notPrime = n % prime1 == 0 || n % prime2 == 0 || n % prime3 == 0 ||
+  //              n % prime4 == 0 || n % prime5 == 0;
+  //   completed = notPrime || prime5 * prime5 > n;
+  //
+  //   i += 5;
+  //   prime1 = primeCache[i];
+  //   prime2 = primeCache[i + 1];
+  //   prime3 = primeCache[i + 2];
+  //   prime4 = primeCache[i + 3];
+  //   prime5 = primeCache[i + 4];
+  //
+  //   // make sure that the next prime is not less than the previous
+  //   prime2 = std::max(prime1, prime2);
+  //   prime3 = std::max(prime2, prime3);
+  //   prime4 = std::max(prime3, prime4);
+  //   prime5 = std::max(prime4, prime5);
+  // }
+  //
+  // highestValueChecked = n;
+  // return !notPrime;
 
   int i = 0;
   int currentPrime = primeCache[i];
@@ -68,8 +120,10 @@ void Primes::genPrimes(int n) {
     }
   }
 
-  std::cout << primeCache.size() << " primes were calculated under " << n
-            << std::endl;
+  cacheSize = primeCache.size();
+
+  // std::cout << primeCache.size() << " primes were calculated under " << n
+  //           << std::endl;
 }
 
 class Goldbach {
@@ -84,9 +138,11 @@ public:
   void print_settings();
   void calculate();
   int getLimit();
+  void setLimit(int);
 };
 
 int Goldbach::getLimit() { return limit; }
+void Goldbach::setLimit(int n) { limit = n; }
 
 int Goldbach ::ask_settings() {
   std::cout << "Till what number would you like to calculate?" << std::endl;
@@ -118,7 +174,7 @@ void Goldbach ::calculate() {
   for (int num = 4; num <= limit; num += 2) {
     calulated = false;
 
-    for (int i = 0; i <= p.primeCache.size(); ++i) {
+    for (int i = 0; i <= p.cacheSize; ++i) {
       int currentPrime = p.primeCache[i];
 
       if (p.contains(num - currentPrime)) {
@@ -140,15 +196,18 @@ void Goldbach ::calculate() {
 int main(int argc, char *argv[]) {
 
   Primes p;
-  // Goldbach *gb = new Goldbach();
+  // Goldbach gb;
   //
   // gb->ask_settings();
   // gb->print_settings();
 
   // auto begin = std::chrono::high_resolution_clock::now();
 
-  // gb->calculate();
+  // gb.setLimit(100000);
+  // gb.calculate();
   p.genPrimes(10000000);
+
+  // p.genPrimes(100);
 
   // auto end = std::chrono::high_resolution_clock::now();
   // auto duration =
@@ -157,8 +216,9 @@ int main(int argc, char *argv[]) {
 
   // for (int i = 0; i < p.primeCache.size(); i++)
   //   std::cout << p.primeCache[i] << ", ";
-  //
   // std::cout << std::endl;
+  //
+  std::cout << p.cacheSize << std::endl;
 
   // std::cout << "Calculation took: " << duration << "ms" << std::endl;
 
